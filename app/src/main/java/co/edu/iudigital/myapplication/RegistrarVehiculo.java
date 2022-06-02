@@ -11,19 +11,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class RegistrarUsuario extends AppCompatActivity {
+public class RegistrarVehiculo extends AppCompatActivity {
 
-    EditText documento, placa, entrada, salida;
+    EditText documento, placa, entrada, celda, salida;
     Button registrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrar_usuario);
+        setContentView(R.layout.activity_registrar_vehiculo);
 
         documento = findViewById(R.id.txtDocumento);
         placa = findViewById(R.id.txtPlaca);
         entrada = findViewById(R.id.txtEntrada);
+        celda = findViewById(R.id.txtCelda);
         salida = findViewById(R.id.txtSalida);
     }
 
@@ -34,12 +35,14 @@ public class RegistrarUsuario extends AppCompatActivity {
         String doc = documento.getText().toString();
         String pla = placa.getText().toString();
         String ent = entrada.getText().toString();
+        String cel = celda.getText().toString();
         String sal = salida.getText().toString();
 
         ContentValues valores = new ContentValues();
         valores.put("doc", doc);
         valores.put("placa", pla);
         valores.put("entrada", ent);
+        valores.put("celda", cel);
         valores.put("salida", sal);
 
         long newRowId = db.insert("parking",null,valores);
@@ -52,6 +55,7 @@ public class RegistrarUsuario extends AppCompatActivity {
         documento.setText("");
         placa.setText("");
         entrada.setText("");
+        celda.setText("");
         salida.setText("");
     }
 
@@ -66,16 +70,17 @@ public class RegistrarUsuario extends AppCompatActivity {
             if (fila.moveToFirst()){
                 placa.setText(fila.getString(1));
                 entrada.setText(fila.getString(2));
-                salida.setText(fila.getString(3));
+                celda.setText(fila.getString(3));
+                salida.setText(fila.getString(4));
             }else {
                 documento.setText("");
                 placa.setText("");
                 entrada.setText("");
+                celda.setText("");
                 salida.setText("");
-                Toast.makeText(getApplicationContext(),"Usuario no existe", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Vehículo no existe", Toast.LENGTH_LONG).show();
             }
         }else{
-
             Toast.makeText(getApplicationContext(),"Ingrese un documento para la búsqueda", Toast.LENGTH_LONG).show();
         }
 
@@ -87,6 +92,7 @@ public class RegistrarUsuario extends AppCompatActivity {
         String doc = documento.getText().toString();
         String pla = placa.getText().toString();
         String ent = entrada.getText().toString();
+        String cel = celda.getText().toString();
         String sal = salida.getText().toString();
 
         if (!doc.isEmpty()) {
@@ -96,15 +102,16 @@ public class RegistrarUsuario extends AppCompatActivity {
             ContentValues valores = new ContentValues();
             valores.put("placa", pla);
             valores.put("entrada", ent);
+            valores.put("celda", cel);
             valores.put("salida", sal);
 
             int i = db.update("parking",valores,"doc="+doc,null);
 
             if(i!=0){
                 documento.setText("");
-                Toast.makeText(this,"Usuario actualizado exitosamente",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Vehículo actualizado exitosamente",Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(this,"Usuario no existe",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Vehículo no existe",Toast.LENGTH_LONG).show();
             }
         }else{
             Toast.makeText(getApplicationContext(),"Ingrese el documento a actualizar", Toast.LENGTH_LONG).show();
@@ -112,6 +119,7 @@ public class RegistrarUsuario extends AppCompatActivity {
         documento.setText("");
         placa.setText("");
         entrada.setText("");
+        celda.setText("");
         salida.setText("");
     }
     public void Eliminar (View view){
@@ -125,10 +133,11 @@ public class RegistrarUsuario extends AppCompatActivity {
                 documento.setText("");
                 placa.setText("");
                 entrada.setText("");
+                celda.setText("");
                 salida.setText("");
-                Toast.makeText(this,"Usuario eliminado exitosamente",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Vehículo eliminado exitosamente",Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(this,"Usuario no existe",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Vehículo no existe",Toast.LENGTH_LONG).show();
             }
         }else{
             Toast.makeText(getApplicationContext(),"Ingrese el documento a eliminar", Toast.LENGTH_LONG).show();

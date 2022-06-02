@@ -26,12 +26,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegistrarUsuario"
+            android:name=".RegistrarVehiculo"
             android:exported="true">
 
         </activity>
         <activity
             android:name=".MainActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".RegistrarUsuario"
             android:exported="true">
 
         </activity>

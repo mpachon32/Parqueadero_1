@@ -40,12 +40,12 @@ public class MainActivity extends AppCompatActivity {
                 String clave = password.getText().toString();
 
                 if (!usuario.isEmpty()){
-                    Cursor fila = db.rawQuery("select * from estudiante where username = '"+usuario+"'", null);
+                    Cursor fila = db.rawQuery("select * from administradores where usuario = '"+usuario+"'", null);
                     if (fila.moveToFirst()){
                         //Compara la variable usuario con la posición 1 del arreglo de columnas de la tabla usuarios que corresponde al campo username
                         //Compara la variable clave con la posición 2 del arreglo de columnas de la tabla usuarios que corresponde al campo password
                         if (usuario.equals(fila.getString(1))&& clave.equals(fila.getString(2))){
-                            Intent intent = new Intent(MainActivity.this, Principal.class);
+                            Intent intent = new Intent(MainActivity.this, RegistrarVehiculo.class);
                             startActivity(intent);
                             Toast.makeText(getApplicationContext(),"Bienvenido",Toast.LENGTH_LONG).show();
                         }else{
