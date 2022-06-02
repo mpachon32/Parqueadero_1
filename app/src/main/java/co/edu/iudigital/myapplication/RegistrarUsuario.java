@@ -1,7 +1,5 @@
 package co.edu.iudigital.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,21 +9,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class RegistrarVehiculo extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
 
-    EditText documento, placa, entrada, celda, salida;
+public class RegistrarUsuario extends AppCompatActivity {
+
+    EditText documento, usuario, password;
     Button registrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrar_vehiculo);
+        setContentView(R.layout.activity_registrar_usuario);
 
         documento = findViewById(R.id.txtDocumento);
-        placa = findViewById(R.id.txtPlaca);
-        entrada = findViewById(R.id.txtEntrada);
-        celda = findViewById(R.id.txtCelda);
-        salida = findViewById(R.id.txtSalida);
+        usuario = findViewById(R.id.txtUsuario);
+        password = findViewById(R.id.txtPassword);
     }
 
     public void Registrar (View view){
@@ -33,19 +31,15 @@ public class RegistrarVehiculo extends AppCompatActivity {
         SQLiteDatabase db = admin.getWritableDatabase();
 
         String doc = documento.getText().toString();
-        String pla = placa.getText().toString();
-        String ent = entrada.getText().toString();
-        String cel = celda.getText().toString();
-        String sal = salida.getText().toString();
+        String usu = usuario.getText().toString();
+        String pas = password.getText().toString();
 
         ContentValues valores = new ContentValues();
         valores.put("doc", doc);
-        valores.put("placa", pla);
-        valores.put("entrada", ent);
-        valores.put("celda", cel);
-        valores.put("salida", sal);
+        valores.put("usuario", usu);
+        valores.put("password", pas);
 
-        long newRowId = db.insert("parking",null,valores);
+        long newRowId = db.insert("administradores",null,valores);
 
         if (newRowId==-1){
             Toast.makeText(this, "Error guardando datos", Toast.LENGTH_LONG).show();
@@ -53,32 +47,25 @@ public class RegistrarVehiculo extends AppCompatActivity {
             Toast.makeText(this, "Datos guardados", Toast.LENGTH_LONG).show();
         }
         documento.setText("");
-        placa.setText("");
-        entrada.setText("");
-        celda.setText("");
-        salida.setText("");
+        usuario.setText("");
+        password.setText("");
     }
 
 
     public void Consultar (View view){
-        //consultar
         AdminDataBase admin = new AdminDataBase(getApplicationContext(), "Actividad", 1);
         SQLiteDatabase db = admin.getWritableDatabase();
         String id = documento.getText().toString();
 
         if (!id.isEmpty()){
-            Cursor fila =db.rawQuery("select * from parking where doc="+id,null);
+            Cursor fila =db.rawQuery("select * from administradores where doc="+id,null);
             if (fila.moveToFirst()){
-                placa.setText(fila.getString(1));
-                entrada.setText(fila.getString(2));
-                celda.setText(fila.getString(3));
-                salida.setText(fila.getString(4));
+                usuario.setText(fila.getString(1));
+                password.setText(fila.getString(2));
             }else {
                 documento.setText("");
-                placa.setText("");
-                entrada.setText("");
-                celda.setText("");
-                salida.setText("");
+                usuario.setText("");
+                password.setText("");
                 Toast.makeText(getApplicationContext(),"Vehículo no existe", Toast.LENGTH_LONG).show();
             }
         }else{
@@ -91,22 +78,17 @@ public class RegistrarVehiculo extends AppCompatActivity {
         SQLiteDatabase db = admin.getWritableDatabase();
 
         String doc = documento.getText().toString();
-        String pla = placa.getText().toString();
-        String ent = entrada.getText().toString();
-        String cel = celda.getText().toString();
-        String sal = salida.getText().toString();
+        String pla = usuario.getText().toString();
+        String ent = password.getText().toString();
 
         if (!doc.isEmpty()) {
 
             //Toast.makeText(this, "if 1", Toast.LENGTH_LONG).show();
 
             ContentValues valores = new ContentValues();
-            valores.put("placa", pla);
-            valores.put("entrada", ent);
-            valores.put("celda", cel);
-            valores.put("salida", sal);
-
-            int i = db.update("parking",valores,"doc="+doc,null);
+            valores.put("usuario", pla);
+            valores.put("password", ent);
+            int i = db.update("administradores",valores,"doc="+doc,null);
 
             if(i!=0){
                 documento.setText("");
@@ -118,10 +100,8 @@ public class RegistrarVehiculo extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Ingrese el documento a actualizar", Toast.LENGTH_LONG).show();
         }
         documento.setText("");
-        placa.setText("");
-        entrada.setText("");
-        celda.setText("");
-        salida.setText("");
+        usuario.setText("");
+        password.setText("");
     }
     public void Eliminar (View view){
         AdminDataBase admin = new AdminDataBase(getApplicationContext(), "Actividad", 1);
@@ -129,13 +109,12 @@ public class RegistrarVehiculo extends AppCompatActivity {
 
         String id = documento.getText().toString();
         if (!id.isEmpty()){
-            int i = db.delete("parking","doc="+id,null);
+            int i = db.delete("administradores9","doc="+id,null);
             if(i!=0){
+
                 documento.setText("");
-                placa.setText("");
-                entrada.setText("");
-                celda.setText("");
-                salida.setText("");
+                usuario.setText("");
+                password.setText("");
                 Toast.makeText(this,"Vehículo eliminado exitosamente",Toast.LENGTH_LONG).show();
             }else{
                 Toast.makeText(this,"Vehículo no existe",Toast.LENGTH_LONG).show();
@@ -143,6 +122,5 @@ public class RegistrarVehiculo extends AppCompatActivity {
         }else{
             Toast.makeText(getApplicationContext(),"Ingrese el documento a eliminar", Toast.LENGTH_LONG).show();
         }
-
     }
 }
